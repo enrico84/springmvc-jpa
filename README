@@ -11,9 +11,13 @@ I package da creare sono "com.capone.controller", "com.capone.model", "com.capon
 
 Il progetto deve avere il file web.xml che gestisce la "DispatchServelt e il file di Configurazione dei bean di Spring "enrico-servet.xml": questi si trovano o vanno creati sotto WebContent/WEB-INF (Il nome del file "enrico-servet.xml" deve matchare con il valore dei tag "enrico</servlet-name"> e "/WEB-INF/enrico-servlet.xml" nel file web.xml.
 
-Info su come installare Tomcat in Eclipse: https://crunchify.com/step-by-step-guide-to-setup-and-install-apache-tomcat-server-in-eclipse-development-environment-ide/
+Info su come installare Tomcat in Eclipse: 
+https://crunchify.com/step-by-step-guide-to-setup-and-install-apache-tomcat-server-in-eclipse-development-environment-ide/
 
-Info su come si crea un progetto SpringMVC qui: https://www.javatpoint.com/spring-mvc-crud-example https://www.codejava.net/frameworks/spring/spring-mvc-beginner-tutorial-with-spring-tool-suite-ide https://www.codejava.net/frameworks/spring/spring-mvc-spring-data-jpa-hibernate-crud-example
+Info su come si crea un progetto SpringMVC qui: 
+https://www.javatpoint.com/spring-mvc-crud-example 
+https://www.codejava.net/frameworks/spring/spring-mvc-beginner-tutorial-with-spring-tool-suite-ide 
+https://www.codejava.net/frameworks/spring/spring-mvc-spring-data-jpa-hibernate-crud-example
 
 Il database di riferimento è MySQL, si può creare un nuovo database "players" con dentro una tabella "player" manualmente tramite un client come MySqlWorkbench, oppure tramite tool Docker-Desktop su Windows si crea il container contenente il database: MySqlWorkbench classico: dal tool creare una nuova connessione "127.0.0.1:3308" sotto cui creare il database
 
