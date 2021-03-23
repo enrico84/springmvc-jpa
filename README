@@ -5,7 +5,9 @@ Tecnologie usate:
 - IDE: Spring Tool Suite 4.1.2.RELEASE oppure Eclipse IDE Version: 2020-09 + Plugin di STS
 - WebServer: Apache-tomcat-9.0.43.
 
-Importare il progetto come MavenProject, oppure per crearlo da zero creare un Dynamic Web Project. Creare un Dynamic Web Project in Eclipse e convertirlo in un progetto Maven: tasto detro sul progetto -> Configure > Convert to Maven Project -> -> come groupId inserire "com.capone.mvc", come artifactId "spring-mvc-example". I package da creare sono "com.capone.controller", "com.capone.model", "com.capone.service".
+Importare il progetto come MavenProject, oppure per crearlo da zero creare un Dynamic Web Project. 
+Creare un Dynamic Web Project in Eclipse e convertirlo in un progetto Maven: tasto detro sul progetto -> Configure -> Convert to Maven Project -> come groupId inserire "com.capone.mvc", come artifactId "spring-mvc-example". 
+I package da creare sono "com.capone.controller", "com.capone.model", "com.capone.service".
 
 Il progetto deve avere il file web.xml che gestisce la "DispatchServelt e il file di Configurazione dei bean di Spring "enrico-servet.xml": questi si trovano o vanno creati sotto WebContent/WEB-INF (Il nome del file "enrico-servet.xml" deve matchare con il valore dei tag "enrico</servlet-name"> e "/WEB-INF/enrico-servlet.xml" nel file web.xml.
 
@@ -13,23 +15,23 @@ Info su come installare Tomcat in Eclipse: https://crunchify.com/step-by-step-gu
 
 Info su come si crea un progetto SpringMVC qui: https://www.javatpoint.com/spring-mvc-crud-example https://www.codejava.net/frameworks/spring/spring-mvc-beginner-tutorial-with-spring-tool-suite-ide https://www.codejava.net/frameworks/spring/spring-mvc-spring-data-jpa-hibernate-crud-example
 
-Il database di riferimento è MySQL, si può creare un nuovo database "players" con dentro una tabella "player" manualmente tramite un client come MySqlWorkbench, oppure tramite tool Docker-Desktop su Windows si crea il container contenente il database: MySqlWorkbench classico: dal tool creare una nuova connessione "127.0.0.1:3308" sotto cui creare il database
+Il database di riferimento Ã¨ MySQL, si puÃ² creare un nuovo database "players" con dentro una tabella "player" manualmente tramite un client come MySqlWorkbench, oppure tramite tool Docker-Desktop su Windows si crea il container contenente il database: MySqlWorkbench classico: dal tool creare una nuova connessione "127.0.0.1:3308" sotto cui creare il database
 
-MySQL dockerizzato => Lanciare in una cartella vuota il file "docker.compose.yml" che si trova sotto src/main/resources/doc. Questi creerà due nuove sotto-cartelle, "config" e "data" che rappresentano due volumi, rispettivamente le configurazioni di Mysql e i dati memorizzati. SU Docker-Desktop verrà installato il nuovo container, avviare l'immagine che contiene il database MySQL "players". Entrare da MySqlWorkbench sotto l'hostname 'http://127.0.0.1:3308' oppure dopo aver avviato l'applicazione Java da browser andare su 'http://localhost:8080' per entrare nel database 'players' I parametri com username e password si trovano nel file docker-compose.yml usato per creare il container docker.
+MySQL dockerizzato => Lanciare in una cartella vuota il file "docker.compose.yml" che si trova sotto src/main/resources/doc. Questi creerÃ  due nuove sotto-cartelle, "config" e "data" che rappresentano due volumi, rispettivamente le configurazioni di Mysql e i dati memorizzati. SU Docker-Desktop verrÃ  installato il nuovo container, avviare l'immagine che contiene il database MySQL "players". Entrare da MySqlWorkbench sotto l'hostname 'http://127.0.0.1:3308' oppure dopo aver avviato l'applicazione Java da browser andare su 'http://localhost:8080' per entrare nel database 'players' I parametri com username e password si trovano nel file docker-compose.yml usato per creare il container docker.
 
 Deploy sotyto WebServer Tomcat:
 Creare in Eclipse un Server di tipo Tomcat, collegandolo al server apache-tomcat-9.0.43 scaricato in locale.
 Aggungere il progetto al Server Tomcat (tasto destro nella tab Servers di Eclipse sul Server Tomcat creato in precedenza -> Add and Remove), 
-sotto il Server si vedrà il progetto aggiunto. Per far partire il server tasto destro nella tab Servers di Eclipse sul Server Tomcat -> Start 
-oppure Debug se si vuole startare il server in modalità di Debug.
-Dopo che l'app è deployata partita sotto Tomcat, far partire questi e dal browser digitare => http://localhost:8081/spring/
+sotto il Server si vedrÃ  il progetto aggiunto. Per far partire il server tasto destro nella tab Servers di Eclipse sul Server Tomcat -> Start 
+oppure Debug se si vuole startare il server in modalitÃ  di Debug.
+Dopo che l'app Ã¨ deployata partita sotto Tomcat, far partire questi e dal browser digitare => http://localhost:8081/spring/
 
 *** SPRING MVC - CONFIGURAZIONE TRAMITE FILE XML ***
 - Ci sono essenzialmente due file che gestiscono la configurazione di SPringMVC, il WEB.XML e il DISPATCHER-CONFIG.XML.
 
 WEB.XML
-- La "DispatcherServlet" è il punto di ingresso di ogni applicazione Spring MVC. 
-  Il suo scopo è intercettare le richieste HTTP e inviarle al componente giusto che saprà come gestirle.
+- La "DispatcherServlet" Ã¨ il punto di ingresso di ogni applicazione Spring MVC. 
+  Il suo scopo Ã¨ intercettare le richieste HTTP e inviarle al componente giusto che saprÃ  come gestirle.
   
 - Fino alla versione Spring 3.1 l'unico modo per configurare la DispatcherServlet era con il file WEB-INF/web.xml.
   In questo caso sono necessari due passaggi =>
@@ -51,13 +53,13 @@ WEB.XML
  Con questo blocco in XML si dichiara una servlet che:
 
  . Si chiama "dispatcher"
- . È un'istanza della classe org.springframework.web.servlet.DispatcherServlet
- . Verrà inizializzata con un parametro denominato "contextConfigLocation" che contiene il percorso del file XML di configurazione "dispatcher-config.xml" (sezione 3);
+ . Ãˆ un'istanza della classe org.springframework.web.servlet.DispatcherServlet
+ . VerrÃ  inizializzata con un parametro denominato "contextConfigLocation" che contiene il percorso del file XML di configurazione "dispatcher-config.xml" (sezione 3);
  
- . "load-on-startup" è un valore intero che specifica l'ordine di caricamento di più servlet. Quindi, se è necessario dichiarare più di una servlet, 
-   è possibile definire in quale ordine verranno inizializzate. Le servlet contrassegnate con numeri interi inferiori vengono caricati prima delle servlet
-   contrassegnate con numeri interi più alti.
-   Es. La servlet "servlet1 "sarà caricata PRIMA della Servlet "servlet2"
+ . "load-on-startup" Ã¨ un valore intero che specifica l'ordine di caricamento di piÃ¹ servlet. Quindi, se Ã¨ necessario dichiarare piÃ¹ di una servlet, 
+   Ã¨ possibile definire in quale ordine verranno inizializzate. Le servlet contrassegnate con numeri interi inferiori vengono caricati prima delle servlet
+   contrassegnate con numeri interi piÃ¹ alti.
+   Es. La servlet "servlet1 "sarÃ  caricata PRIMA della Servlet "servlet2"
   
      // Servlet numero 1
      <servlet>
@@ -73,7 +75,7 @@ WEB.XML
        <load-on-startup>2</load-on-startup>
      </servlet>  
    
-2) Il secondo passaggio è la dichiarazione di un "servlet-mapping":
+2) Il secondo passaggio Ã¨ la dichiarazione di un "servlet-mapping":
 
    <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
