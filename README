@@ -1,0 +1,115 @@
+springmvc-jpa
+Un esempio di applicazione SpringMVC con JPA per la persistenza dei dati
+
+Tecnologie usate: 
+- IDE: Spring Tool Suite 4.1.2.RELEASE oppure Eclipse IDE Version: 2020-09 + Plugin di STS
+- WebServer: Apache-tomcat-9.0.43.
+
+Importare il progetto come MavenProject, oppure per crearlo da zero creare un Dynamic Web Project. Creare un Dynamic Web Project in Eclipse e convertirlo in un progetto Maven: tasto detro sul progetto -> Configure > Convert to Maven Project -> -> come groupId inserire "com.capone.mvc", come artifactId "spring-mvc-example". I package da creare sono "com.capone.controller", "com.capone.model", "com.capone.service".
+
+Il progetto deve avere il file web.xml che gestisce la "DispatchServelt e il file di Configurazione dei bean di Spring "enrico-servet.xml": questi si trovano o vanno creati sotto WebContent/WEB-INF (Il nome del file "enrico-servet.xml" deve matchare con il valore dei tag "enrico</servlet-name"> e "/WEB-INF/enrico-servlet.xml" nel file web.xml.
+
+Info su come installare Tomcat in Eclipse: https://crunchify.com/step-by-step-guide-to-setup-and-install-apache-tomcat-server-in-eclipse-development-environment-ide/
+
+Info su come si crea un progetto SpringMVC qui: https://www.javatpoint.com/spring-mvc-crud-example https://www.codejava.net/frameworks/spring/spring-mvc-beginner-tutorial-with-spring-tool-suite-ide https://www.codejava.net/frameworks/spring/spring-mvc-spring-data-jpa-hibernate-crud-example
+
+Il database di riferimento è MySQL, si può creare un nuovo database "players" con dentro una tabella "player" manualmente tramite un client come MySqlWorkbench, oppure tramite tool Docker-Desktop su Windows si crea il container contenente il database: MySqlWorkbench classico: dal tool creare una nuova connessione "127.0.0.1:3308" sotto cui creare il database
+
+MySQL dockerizzato => Lanciare in una cartella vuota il file "docker.compose.yml" che si trova sotto src/main/resources/doc. Questi creerà due nuove sotto-cartelle, "config" e "data" che rappresentano due volumi, rispettivamente le configurazioni di Mysql e i dati memorizzati. SU Docker-Desktop verrà installato il nuovo container, avviare l'immagine che contiene il database MySQL "players". Entrare da MySqlWorkbench sotto l'hostname 'http://127.0.0.1:3308' oppure dopo aver avviato l'applicazione Java da browser andare su 'http://localhost:8080' per entrare nel database 'players' I parametri com username e password si trovano nel file docker-compose.yml usato per creare il container docker.
+
+Deploy sotyto WebServer Tomcat:
+Creare in Eclipse un Server di tipo Tomcat, collegandolo al server apache-tomcat-9.0.43 scaricato in locale.
+Aggungere il progetto al Server Tomcat (tasto destro nella tab Servers di Eclipse sul Server Tomcat creato in precedenza -> Add and Remove), 
+sotto il Server si vedrà il progetto aggiunto. Per far partire il server tasto destro nella tab Servers di Eclipse sul Server Tomcat -> Start 
+oppure Debug se si vuole startare il server in modalità di Debug.
+Dopo che l'app è deployata partita sotto Tomcat, far partire questi e dal browser digitare => http://localhost:8081/spring/
+
+*** SPRING MVC - CONFIGURAZIONE TRAMITE FILE XML ***
+- Ci sono essenzialmente due file che gestiscono la configurazione di SPringMVC, il WEB.XML e il DISPATCHER-CONFIG.XML.
+
+WEB.XML
+- La "DispatcherServlet" è il punto di ingresso di ogni applicazione Spring MVC. 
+  Il suo scopo è intercettare le richieste HTTP e inviarle al componente giusto che saprà come gestirle.
+  
+- Fino alla versione Spring 3.1 l'unico modo per configurare la DispatcherServlet era con il file WEB-INF/web.xml.
+  In questo caso sono necessari due passaggi =>
+1) Dichiarazione del tag Servlet:
+  
+  <display-name>spring-mvc-example</display-name>
+  <servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>
+        org.springframework.web.servlet.DispatcherServlet
+    </servlet-class>
+    <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring/dispatcher-config.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+ </servlet>
+
+ Con questo blocco in XML si dichiara una servlet che:
+
+ . Si chiama "dispatcher"
+ . È un'istanza della classe org.springframework.web.servlet.DispatcherServlet
+ . Verrà inizializzata con un parametro denominato "contextConfigLocation" che contiene il percorso del file XML di configurazione "dispatcher-config.xml" (sezione 3);
+ 
+ . "load-on-startup" è un valore intero che specifica l'ordine di caricamento di più servlet. Quindi, se è necessario dichiarare più di una servlet, 
+   è possibile definire in quale ordine verranno inizializzate. Le servlet contrassegnate con numeri interi inferiori vengono caricati prima delle servlet
+   contrassegnate con numeri interi più alti.
+   Es. La servlet "servlet1 "sarà caricata PRIMA della Servlet "servlet2"
+  
+     // Servlet numero 1
+     <servlet>
+       <servlet-name>servlet1</servlet-name>
+       .....
+       <load-on-startup>1</load-on-startup>
+     </servlet>
+     
+     // Servlet numero 2
+      <servlet>
+       <servlet-name>servlet2</servlet-name>
+       .....
+       <load-on-startup>2</load-on-startup>
+     </servlet>  
+   
+2) Il secondo passaggio è la dichiarazione di un "servlet-mapping":
+
+   <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+   </servlet-mapping>
+   
+   Con il servlet-mapping stiamo vincolando la servlet tramite il nome a un pattern URL (in questo caso il root pattern "/") 
+   che specifica quali richieste HTTP verranno gestite da questa.
+
+DISPATCHER-CONFIG.XML
+- Il file "dispatcher-config.xml" richiamato dal file "web.xml" definisce tra le altre cose i Bean che gestisce Spring (come @Controller)
+- Come detto prima la DispatcherServlet per essere instanziata legge il parametro denominato "contextConfigLocation" che contiene 
+  il percorso del file di configurazione "dispatcher-config.xml", di seguito definito
+
+ <beans:beans ... />
+    <annotation-driven />
+	<context:component-scan base-package="com.capone" />
+
+	<!-- View Resolver:  -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- mvc:resources mappa la "url path" alla locazione fisica dove sono localizzati il file js, css e img -->
+	<mvc:resources mapping="/resources/**" location="/resources/tema1/" cache-period="31556926" />
+	<mvc:annotation-driven />
+ </beans:beans>
+
+- "annotation-driven" dice alla DispatcherServlet di cercare le classi Controller usando l'annotazione @Controller;
+
+- <context:component-scan base-package="com.capone" /> : Il component-scan cerca nel package "com.capone" le classi definite Controller;
+
+- Viene registrato un bean "ViewResolver" definendo che i metodi della classe @Controller restituiscono le viste .jsp dalla directory / WEB-INF / view.
+
+- <resources mapping="/resources/**" location="/resources/tema1/" /> => 
+  Mappa la "url path" alla locazione fisica - ${webappRoot}/resources/tema1 - in cui sono localizzati i file .js, .css e .img
+   
