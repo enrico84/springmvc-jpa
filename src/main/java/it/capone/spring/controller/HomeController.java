@@ -85,11 +85,11 @@ public class HomeController {
     }
 
     /**
-     * - Un @ModelAttribute su un argomento del metodo indica che l'argomento verr‡ recuperato dal model. 
-     * - Il suo valore corrisponde al valore della propriet‡ "modelAttribute" inviata dal form. 
+     * - Un @ModelAttribute su un argomento del metodo indica che l'argomento verr√† recuperato dal model. 
+     * - Il suo valore corrisponde al valore della propriet√†  "modelAttribute" inviata dal form. 
      * - Il @ModelAttribute "player" viene instanziato nella api /simpleForm ed inviato al form formPlayer.jsp
-     *   in cui i valori inseriti vengogo usati come dei set per il player e inviato in Post
-     * - Se non Ë presente nel model, l'argomento verr‡ prima istanziato e poi aggiunto al model. 
+     *   in cui i valori inseriti vengono usati come dei set per il player e inviato in Post
+     * - Se non √® presente nel model, l'argomento verr√† prima istanziato e poi aggiunto al model. 
      * - La property "params" fa match con il valore della property "name" definita nel tag html <input type="submit">   
      */
     @PostMapping(value = "/addPlayer", params = "submit")
@@ -150,7 +150,7 @@ public class HomeController {
     }
 
     /*
-     * La parola "command" Ë un request-attribute riservato usato per visualizzare
+     * La parola "command" √® un request-attribute riservato usato per visualizzare
      * il data-object(in questo caso -> new Player()) nel Form
      */
     @GetMapping("/addform")
@@ -167,7 +167,7 @@ public class HomeController {
     }
 
     /*
-     * La parola "command" Ë un request-attribute riservato usato per visualizzare
+     * La parola "command" √® un request-attribute riservato usato per visualizzare
      * il data-object(in questo caso -> new Player()) nel Form
      */
     @RequestMapping(value = "/editplayer/{id}")
